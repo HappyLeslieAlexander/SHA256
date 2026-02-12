@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SHA-256</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:system-ui,sans-serif;padding:20px;max-width:600px;margin:0 auto;background:#f5f5f5}
+textarea,input{width:100%;padding:10px;border:1px solid #ccc;border-radius:4px;font-size:14px;margin:10px 0}
+textarea{min-height:120px;resize:vertical;font-family:monospace}
+input{background:#fff;cursor:pointer}
+input:read-only{background:#e9ecef;color:#333}
+h1{font-size:24px;margin-bottom:20px;color:#333}
+</style>
+</head>
+<body>
+<h1>SHA-256 哈希计算器</h1>
+<textarea id="input" placeholder="输入文本..."></textarea>
+<input id="output" readonly placeholder="哈希值将显示在这里" onclick="this.select();document.execCommand('copy')">
+<script>
+async function calc(){
+const t=document.getElementById('input').value;
+const e=new TextEncoder().encode(t);
+const h=await crypto.subtle.digest('SHA-256',e);
+const a=Array.from(new Uint8Array(h));
+document.getElementById('output').value=a.map(b=>b.toString(16).padStart(2,'0')).join('');
+}
+document.getElementById('input').addEventListener('input',calc);
+</script>
+</body>
+</html>
